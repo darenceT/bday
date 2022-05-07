@@ -15,12 +15,13 @@ passwords['dthong@uw.edu'] = '1234567890'
 app = Flask(__name__)
 app.secret_key = "a secret"
 
-search_query = ("03/28", "1986", 50)
+search_query = ("03/28", "1986", 20)
+
+@app.route("/results")
+def results():
+    return render_template("results.html", found_bdays=findBirths(*search_query))
 
 @app.route("/")
-def home():
-    return render_template("home.html", found_bdays=findBirths(*search_query))
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form=loginForm()
@@ -28,7 +29,7 @@ def login():
         user=request.form["email"]
         pw=request.form["password"]
         if user is not None and user in passwords and passwords[user] == pw:
-            return redirect('/')
+            return redirect('/results')
     return render_template("login.html", form=form)
 
 if __name__ == "__main__":

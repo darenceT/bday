@@ -1,13 +1,10 @@
 {% extends "base.html" %}
-{% set active_page = 'home' %}
-{% block title %} Home {% endblock %}
+{% set active_page = 'results' %}
+{% block title %} Results {% endblock %}
 
 {% block content %}
 
 <table class="table table-success table-striped">
-    {% for entry in my_data %}
-        {{ entry }}
-    {% endfor %}
     <thead>
         <tr>
             <th scope="col">#</th>

@@ -1,6 +1,6 @@
 import requests
 
-def findBirths(monthDay,year,size=10):
+def findBirths(monthDay, year, size=10):
     #monthDay is in form "mm/dd"
     #year is in form "yyyy"
     #returns a list of names, birth years and thumbnails 
