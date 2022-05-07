@@ -11,14 +11,16 @@
             <th scope="col">Renown person</th>
             <th scope="col">Birth Year</th>
         </tr>
+        
     </thead>
     <tbody>
         <tr>
+            <br>
             {% for person in found_bdays %}
                 <tr>
-                    <td>{{ loop.index0 }}</td>
-                    <td>{{ person['text'] }}</td>
-                    <td>{{ person['year'] }}</td>
+                    <td class="align-middle">{{ loop.index0 + 1 }}</td>
+                    <td class="align-middle"><img src={{ person["thumbnail"] }} class="img-thumbnail" style="max-height:60px;max-width:60px;">{{ person['text'] }}</td>
+                    <td class="align-middle">{{ person['year'] }}</td>
                 </tr>
             {% endfor %}
         </tr>

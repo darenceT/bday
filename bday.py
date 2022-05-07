@@ -22,6 +22,9 @@ def results():
     return render_template("results.html", found_bdays=findBirths(*search_query))
 
 @app.route("/")
+def redirectToLogin():
+    return redirect("/login")
+    
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form=loginForm()
