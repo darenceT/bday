@@ -2,7 +2,12 @@ from flask import Flask, render_template, request, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms.fields import DateField
 from wiki import findBirths
+
+class searchForm(FlaskForm):
+    date = DateField('Date', format='%Y-%m-%d')
+    #limit = 
 
 class loginForm(FlaskForm):
     email=StringField(label="Enter email", validators=[DataRequired(), Email()])
