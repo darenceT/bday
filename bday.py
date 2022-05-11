@@ -1,21 +1,20 @@
 from flask import Flask, render_template, request, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, validators 
-from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms import StringField, PasswordField, SubmitField, IntegerField 
+from wtforms.validators import DataRequired, Length, EqualTo, Email, NumberRange, InputRequired
 from wtforms.fields import DateField
-# from wtforms.widgets import html5
 from wiki import findBirths
 from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel
 
 
 class searchForm(FlaskForm):
-    date = DateField(label='Date', format='%Y-%m-%d')
+    date = DateField(label='Date', format='%Y-%m-%d', validators=[DataRequired()])
     limit = IntegerField(
         label="limit",
-        validators=[validators.InputRequired(), validators.NumberRange(min=1, max=20)], 
+        validators=[DataRequired(), NumberRange(min=1, max=20)], 
         default=10)
-    search = SubmitField(label="Search")
+    submit = SubmitField(label="Search")
 
 class loginForm(FlaskForm):
     email=StringField(label="Enter email", validators=[DataRequired(), Email()])
@@ -48,16 +47,17 @@ def create_table():
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def findBirthdays():
-    # search_query = ("03/28", "1986", 10)
     form = searchForm()
-    # print(form)
-    if form.validate_on_submit() and request.method == "POST":
-        date = form.dt.data.strftime('%Y%m/%d')
+    found_bdays = None
+    if form.validate_on_submit():
+        date2 = str(form.date.data)
+        date = date2
+        form.date.data = ''
         year = date[:4]
-        month_day = date[4:]
-        search_query = (month_day, year, form.limit)
-        return render_template("home.html", found_bdays=findBirths(*search_query), form=form)
-    return render_template("home.html", form=form)
+        month_day = f'{date[5:7]}/{date[8:]}'
+        search_query = (month_day, year, form.limit.data)
+        found_bdays = findBirths(*search_query)
+    return render_template("home.html", found_bdays = found_bdays, form=form)
 
 @app.route("/")
 def redirectToLogin():
@@ -70,7 +70,6 @@ def login():
         email=request.form["email"]
         pw=request.form["password"]
         user = UserModel.query.filter_by(email = email).first()
-        # if user is not None and user in passwords and passwords[user] == pw:
         if email is not None and user.check_password(pw): 
             login_user(user)
             return redirect('/home')
@@ -82,4 +81,4 @@ def logout():
     return redirect('/login')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0',debug=False)

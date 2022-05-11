@@ -5,28 +5,32 @@
 {% block content %}
 
 <div class="container justify-content-md-center">
-    <div class="row">
-        <div class="col">
-            <p>Enter Birthday</p>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col">
+                <p>Enter Birthday</p>
+            </div>
+            <div class="col">
+                <p>Number of results(max=20)</p>
+            </div>
+            <div class="col">
+            </div>
         </div>
-        <div class="col">
-            <p>Number of results(max=20)</p>
+        <div class="row">
+            <div class="col">
+                {{ form.date(class='datepicker') }}
+            </div>
+            <div class="col">
+                {{ form.limit() }}
+            </div>
+            <div class="col">
+                {{ form.submit() }}
+            </div>
         </div>
-        <div class="col">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            {{ form.date }}
-        </div>
-        <div class="col">
-            {{ form.limit }}
-        </div>
-        <div class="col">
-            {{ form.search }}
-        </div>
-    </div>
+    </form>
 </div>
+{% if found_bdays %}
 <table class="table table-success table-striped">
     <thead>
         <tr>
@@ -34,20 +38,21 @@
             <th scope="col">Renown person</th>
             <th scope="col">Birth Year</th>
         </tr>
-        
+
     </thead>
     <tbody>
         <tr>
             <br>
             {% for person in found_bdays %}
-                <tr>
-                    <td class="align-middle">{{ loop.index0 + 1 }}</td>
-                    <td class="align-middle"><img src={{ person["thumbnail"] }} class="img-thumbnail" style="max-height:60px;max-width:60px;">{{ person['text'] }}</td>
-                    <td class="align-middle">{{ person['year'] }}</td>
-                </tr>
+        <tr>
+            <td class="align-middle">{{ loop.index0 + 1 }}</td>
+            <td class="align-middle"><img src={{ person["thumbnail"] }} class="img-thumbnail"
+                    style="max-height:60px;max-width:60px;">{{ person['text'] }}</td>
+            <td class="align-middle">{{ person['year'] }}</td>
+        </tr>
             {% endfor %}
         </tr>
     </tbody>
 </table>
-
+{% endif %}
 {% endblock %}
