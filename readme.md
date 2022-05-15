@@ -5,7 +5,7 @@ A simple flask web app where you can login to put in a birthday to reveal well-k
 Test login: dthong@uw.edu  
 test password: 1234567890  
   
-Website: http://ec2-3-94-197-151.compute-1.amazonaws.com/ (currently offline)     
+Website: http://ec2-54-234-218-56.compute-1.amazonaws.com/      
   
 Web app is deployed using Docker on AWS EC2 instance.   
   
